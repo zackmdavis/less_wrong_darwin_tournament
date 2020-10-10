@@ -13,7 +13,7 @@ class AbstractSpyTreeBot:
 
     def fallback_play(self):
         # mostly uninspired copycat behavior, but—
-        if self.their_previous is not None:
+        if self.their_previous is not None and self.our_previous is not None:
             # let's at least try to break out of overdemand deadlocks
             if self.our_previous + self.their_previous > 5:
                 play = 5 - self.their_previous
