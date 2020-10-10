@@ -1,4 +1,5 @@
 import ast
+import logging
 from string import ascii_lowercase
 
 from extra import get_opponent_source
@@ -6,7 +7,6 @@ from extra import get_opponent_source
 
 class AbstractSpyTreeBot:
     def __init__(self, round=1):
-        self.turn = 0
         self.round = round
         self.our_previous = None
         self.their_previous = None
@@ -62,11 +62,12 @@ class AbstractSpyTreeBot:
                 {}, {'prediction_box': prediction_box}
             )
             prediction, = prediction_box
-            print("prediction: {}".format(prediction))
+            logging.debug("prediction: %s", prediction)
             assert prediction in [0, 1, 2, 3, 4, 5]
             self.our_previous = 5 - prediction
             return 5 - prediction
         except Exception as e:
+            logging.error(e.args)
             # if anything goes wrong that we didn't anticipate, fall back to
             # fallback behavior
             return self.fallback_play()
